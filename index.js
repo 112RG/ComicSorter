@@ -1,12 +1,7 @@
 const fs = require('fs')
 const winston = require('winston')
-
 async function run () {
-  process.argv.forEach(function (val, index, array) {
-    console.log(index + ': ' + val)
-  })
-  console.log(process.argv)
-  const files = await fs.readdirSync('./test-comics/0-Day Week of 2018.08.22')
+  const files = await fs.readdirSync('./unsorted/')
   // const stripRegex = /\(.*?\)/gim
   // const issueRegex = / \d([^)a-z]+)\d /gi
   const logger = winston.createLogger({
@@ -21,24 +16,26 @@ async function run () {
   const seriesRegex = /^[^\\(]+/gm
   const issue2Regex = /\d+\b/gim
 
-  // let comics = []
-  // let last = []
-  for (const comic of files) {
+  for (let comic of files) {
     if (comic.endsWith('.cbz') || comic.endsWith('.cbr')) {
-      // let comicFixed = comic.replace(stripRegex, '')
       let comicYear = comic.match(yearRegex)
       let comicName = comic.replace(issue2Regex, '').match(seriesRegex)
-      // let comicNameFixed = comicName.toString().replace(issue2Regex, '').trim()
-      // console.log(`${comicName.toString().trim()} ${comicYear}`)
-      try {
-        // fs.mkdirSync(`./test2/${comicName.toString().trim()} ${comicYear}`)
-        logger.log('info', `${comic} ==> ./test2/${comicName.toString().trim()} ${comicYear}/`)
-        // fs.copyFileSync(`./test-comics/0-Day Week of 2018.08.22/${comic}`, `./test2/${comicName.toString().trim()} ${comicYear}/${comic}`)
-      } catch (error) {
-        console.log(error)
-        console.log('Dir exists')
+
+      if (!fs.existsSync(`./sorted/${comicName.toString().trim()} ${comicYear}`)) {
+        logger.log('info', `Creating dir: ./sorted/${comicName.toString().trim()} ${comicYear}`)
+        fs.mkdirSync(`./sorted/${comicName.toString().trim()} ${comicYear}`)
+      } else {
+        logger.warn(`./sorted/${comicName.toString().trim()} ${comicYear} ALREADY EXISTS!`)
       }
-      // comics.push(_comic)
+      if (!fs.existsSync(`./sorted/${comicName.toString().trim()} ${comicYear}/${comic}`)) {
+        // logger.log('info', `Copying file: ${comic} ==> ./sorted/${comicName.toString().trim()} ${comicYear}/`)
+        fs.copyFileSync(`./unsorted/${comic}`, `./sorted/${comicName.toString().trim()} ${comicYear}/${comic}`, (err) => {
+          if (err) throw err
+          logger.log('info', `Copied file: ${comic} ==> ./sorted/${comicName.toString().trim()} ${comicYear}/`)
+        })
+      } else {
+        logger.warn(`./unsorted/${comicName.toString().trim()} ${comicYear}/${comic} ALREADY EXISTS!`)
+      }
     }
   }
 }

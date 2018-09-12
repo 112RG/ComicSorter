@@ -1,0 +1,19 @@
+{
+    "publishers": [
+        "marvel",
+        "dc",
+        "image"
+    ],
+
+    "marvel_characters": [
+        "deadpool",
+        "hulk",
+        "daredevil"
+    ],
+
+    
+    "dc_characters": [
+        "batman",
+        "superman"
+    ]
+}

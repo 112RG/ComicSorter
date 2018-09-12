@@ -1,0 +1,42 @@
+{
+    "name": "comic-sorter",
+    "version": "0.0.1",
+    "author": "_112",
+    "license": "MIT",
+    "description": "A CLI to sort your comic books",
+    "main": "index.js",
+    "scripts": {
+      "test": "node index.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/112madgamer/ComicSorter.git"
+    },
+    "keywords": [
+      "comic"
+    ],
+    "dependencies": {
+      "winston": "^3.1.0",
+      "minimist": "^1.2.0"
+    },
+    "devDependencies": {
+        "dotenv": "^6.0.0",
+        "eslint": "^5.5.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^7.0.1",
+        "eslint-plugin-promise": "^4.0.0",
+        "eslint-plugin-standard": "^4.0.0"
+    },
+
+    "eslintConfig": {
+        "extends": "standard",
+        "rules": {
+            "no-console": 0
+        }
+    },
+    "bugs": {
+      "url": "https://github.com/112madgamer/ComicSorter/issues"
+    },
+    "homepage": "https://github.com/112madgamer/ComicSorter#readme"
+  }

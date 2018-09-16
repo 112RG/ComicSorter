@@ -18,7 +18,8 @@
   "dependencies": {
     "fs-readdir-recursive": "^1.1.0",
     "minimist": "^1.2.0",
-    "winston": "^3.1.0"
+    "winston": "^3.1.0",
+    "comicvine-wrapper": "git+https://github.com/112madgamer/ComicVineWrapper.git"
   },
   "devDependencies": {
     "dotenv": "^6.0.0",

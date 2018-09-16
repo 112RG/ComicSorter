@@ -1,11 +1,12 @@
 const fs = require('fs')
 const winston = require('winston')
 const path = require('path')
-const ComicVine = require('../ComicVineWrapper')
-const config = require('./config.json')
+const ComicVine = require('comicvine-wrapper')
+const config = JSON.parse(fs.readFileSync('./config.json'))
 const fsr = require('fs-readdir-recursive')
 let client = new ComicVine(config.API_TOKEN)
-
+let date = new Date()
+let currentDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`
 const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
   format: winston.format.combine(
@@ -18,6 +19,9 @@ async function run () {
   let comics = await fsr('./unsorted')
   if (!fs.existsSync('./unsorted/')) {
     fs.mkdirSync('./unsorted/')
+  }
+  if (!fs.existsSync('./sorted/')) {
+    fs.mkdirSync('./sorted/')
   }
   // const stripRegex = /\(.*?\)/gim
   // const issueRegex = / \d([^)a-z]+)\d /gi
@@ -59,10 +63,13 @@ async function ComicSort (comics) {
         fs.mkdirSync(`./sorted/${publisher}/${comicName} ${comicYear}`)
       }
       if (!fs.existsSync(`./sorted/${publisher}/${comicName} ${comicYear}/${filename}`)) {
-        fs.copyFileSync(comic, `./sorted/${publisher}/${comicName} ${comicYear}/${filename}`, (err) => {
-          if (err) throw err
+        try {
+          fs.copyFileSync(`./unsorted/${comic}`, `./sorted/${publisher}/${comicName} ${comicYear}/${filename}`)
           logger.log('info', `Copied file: ${comic} ==> ./sorted/${publisher}/${comicName} ${comicYear}/`)
-        })
+          fs.appendFileSync(`${currentDate}.txt`, `Copied file: ${comic} ==> ./sorted/${publisher}/${comicName} ${comicYear}/\n`)
+        } catch (err) {
+          throw err
+        }
       } else {
         logger.warn(`./sorted/${publisher}/${comicName} ${comicYear}/${filename} ALREADY EXISTS!`)
       }

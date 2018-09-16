@@ -46,6 +46,7 @@ index.macoos
 node_modules/
 jspm_packages/
 test-comics/
+*.txt
 # TypeScript v1 declaration files
 typings/
 

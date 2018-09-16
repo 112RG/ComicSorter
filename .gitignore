@@ -40,6 +40,9 @@ test2/
 sort/
 sorted/
 unsorted/
+index-linux
+index-win.exe
+index.macoos
 node_modules/
 jspm_packages/
 test-comics/
@@ -66,3 +69,8 @@ typings/
 
 # next.js build output
 .next
+index-linux
+index-macos
+index-win.exe
+config.json
+config.json

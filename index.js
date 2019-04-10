@@ -17,10 +17,14 @@ const logger = winston.createLogger({
 
 async function run () {
   let comics = await fsr('./unsorted')
+  logger.log('info', `112madgamer ComicSorter`)
+
   if (!fs.existsSync('./unsorted/')) {
+    logger.log('info', `Creating unsorted dir`)
     fs.mkdirSync('./unsorted/')
   }
   if (!fs.existsSync('./sorted/')) {
+    logger.log('info', `Creating sorted dir`)
     fs.mkdirSync('./sorted/')
   }
   // const stripRegex = /\(.*?\)/gim
@@ -48,6 +52,9 @@ async function ComicSort (comics) {
         query: `${comicName}`,
         sort: 'name:desc'
       })
+      if (query.fromCache) {
+        logger.log('info', `Using cached result`)
+      }
       let _comic = query.results[0]
       if (typeof _comic === 'undefined') {
         publisher = 'Unknown'

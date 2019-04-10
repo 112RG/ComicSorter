@@ -51,6 +51,8 @@ async function ComicSort (comics) {
       let _comic = query.results[0]
       if (typeof _comic === 'undefined') {
         publisher = 'Unknown'
+      } else if (_comic.publisher === undefined) {
+        continue
       } else {
         publisher = _comic.publisher.name
       }
@@ -58,10 +60,12 @@ async function ComicSort (comics) {
       if (!fs.existsSync(`./sorted/${publisher}/`)) {
         fs.mkdirSync(`./sorted/${publisher}/`)
       }
+
       if (!fs.existsSync(`./sorted/${publisher}/${comicName} ${comicYear}`)) {
         logger.log('info', `Creating dir: ./sorted/${publisher}/${comicName} ${comicYear}`)
         fs.mkdirSync(`./sorted/${publisher}/${comicName} ${comicYear}`)
       }
+
       if (!fs.existsSync(`./sorted/${publisher}/${comicName} ${comicYear}/${filename}`)) {
         try {
           fs.copyFileSync(`./unsorted/${comic}`, `./sorted/${publisher}/${comicName} ${comicYear}/${filename}`)

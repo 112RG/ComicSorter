@@ -75,3 +75,5 @@ index-macos
 index-win.exe
 config.json
 config.json
+
+*.exe
